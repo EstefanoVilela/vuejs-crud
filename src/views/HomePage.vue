@@ -9,6 +9,6 @@ const cs = useCounterStore();
   <h3>Counter</h3>
   <p>{{ cs.count }}</p>
   <p>{{ cs.doubleCount }}</p>
-  <button @click="cs.increment">Increment</button>
-  <button @click="cs.decrement">Decrement</button>
+  <button @click="cs.increment" class="btn btn-primary me-2">Increment</button>
+  <button @click="cs.decrement" class="btn btn-danger">Decrement</button>
 </template>

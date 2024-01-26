@@ -9,6 +9,16 @@ const router = createRouter({
       name: 'home',
       component: () => import('@/views/HomePage.vue')
     },
+    {
+      path: '/employees',
+      name: 'Empleados',
+      children: [
+        {
+          path: '',
+          component: () => import('@/views/employees/List.vue')
+        },
+      ]
+    }
   ]
 })
 
