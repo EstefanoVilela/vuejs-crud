@@ -11,11 +11,15 @@ const router = createRouter({
     },
     {
       path: '/employees',
-      name: 'Empleados',
+      name: 'empleados',
       children: [
         {
           path: '',
           component: () => import('@/views/employees/List.vue')
+        },
+        {
+          path: 'create',
+          component: () => import('@/views/employees/Form.vue')
         },
       ]
     }

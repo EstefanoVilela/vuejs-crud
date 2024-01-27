@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import { onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
 import { useEmployeesStore } from '@/stores/employees.store'
 const es = useEmployeesStore()
 
@@ -9,7 +10,11 @@ onMounted(() => es.getEmployees())
 </script>
 
 <template>
-  <h1>Employees List</h1>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Employees List</h1>
+    <RouterLink to="/employees/create" class="btn btn-primary">Crear</RouterLink>
+  </div>
+
   <div class="table-responsive">
     <table class="table table-bordered table-hover">
       <thead class="table-light">
