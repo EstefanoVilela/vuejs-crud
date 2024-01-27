@@ -1,9 +1,23 @@
 <script setup lang="ts">
 
-import { RouterLink } from 'vue-router'
+import { onMounted } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
 import { useEmployeeStore } from '@/stores/employee.store'
 
+const route = useRoute()
 const es = useEmployeeStore()
+
+onMounted(() => {
+  const { id } = route.query
+
+  if (id) {
+    es.getEmployee(parseInt(id as string));
+    es.setMethod("PUT");
+  } else {
+    es.clean()
+    es.setMethod("POST");
+  }
+})
 </script>
 
 <template>

@@ -33,6 +33,8 @@ onMounted(() => es.getEmployees())
           <td>{{ employee.first_name }}</td>
           <td>{{ employee.age }}</td>
           <td>
+            <RouterLink :to="`/employees/edit?id=${ employee.id }`" class="btn btn-warning me-2">Editar</RouterLink>
+
             <button class="btn btn-danger" @click="es.destroy" :data-id="employee.id">Eliminar</button>
           </td>
         </tr>

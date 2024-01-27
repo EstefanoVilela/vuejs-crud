@@ -21,6 +21,10 @@ const router = createRouter({
           path: 'create',
           component: () => import('@/views/employees/Form.vue')
         },
+        {
+          path: 'edit',
+          component: () => import('@/views/employees/Form.vue')
+        },
       ]
     }
   ]
