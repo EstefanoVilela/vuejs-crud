@@ -27,12 +27,17 @@ onMounted(() => es.getEmployees())
         </tr>
       </thead>
       <tbody>
-        <tr v-for="employee in es.employees">
+        <tr v-if="es.employees != null" v-for="employee in es.employees">
           <td>{{ employee.id }}</td>
           <td>{{ employee.last_name }}</td>
           <td>{{ employee.first_name }}</td>
           <td>{{ employee.age }}</td>
-          <td></td>
+          <td>
+            <button class="btn btn-danger" @click="es.destroy" :data-id="employee.id">Eliminar</button>
+          </td>
+        </tr>
+        <tr v-else>
+          <td colspan="5" class="text-center">{{ es.message }}</td>
         </tr>
       </tbody>
     </table>
