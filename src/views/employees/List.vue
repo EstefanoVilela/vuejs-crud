@@ -27,7 +27,7 @@ onMounted(() => es.getEmployees())
         </tr>
       </thead>
       <tbody>
-        <tr v-if="es.employees != null" v-for="employee in es.employees">
+        <tr v-if="es.employees.length > 0" v-for="employee in es.employees">
           <td>{{ employee.id }}</td>
           <td>{{ employee.last_name }}</td>
           <td>{{ employee.first_name }}</td>

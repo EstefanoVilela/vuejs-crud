@@ -24,32 +24,32 @@ export const useEmployeeStore = defineStore('employee', () => {
   }
 
   const submit = async () => {
-    if(method.value === 'POST') {
-      const res = await Axios.post('http://localhost/evil-models/ws.php', employee.value);
+    try {
+      if (method.value === 'POST') {
+        const res = await Axios.post("http://localhost:3000/employees", employee.value)
 
-      if (res.status === 200 && res.statusText === 'OK') {
-        const { status, message } = res.data
-        alert(message)
+        if (res.status === 201 && res.statusText === "Created") {
+          alert("Guardado!")
+          // redirect
+        } else alert("Error")
+      } else {
+        const res = await Axios.put(`http://localhost:3000/employees/${ employee.value.id }`, employee.value)
 
-        if (status == 1) clean()
-      } else alert("Error")
-    } else {
-      const res = await Axios.put(`http://localhost/evil-models/ws.php?id=${ employee.value.id }`, employee.value);
-
-      if (res.status === 200 && res.statusText === 'OK') {
-        const { status, message } = res.data
-        alert(message)
-
-        // if (status == 1)
-      } else alert("Error")
+        if (res.status === 200 && res.statusText === 'OK') {
+          alert("Guardado!")
+          // redirect
+        } else alert("Error")
+      }
+    } catch (error) {
+      alert(error)
     }
   }
 
   const getEmployee = async (id: number) => {
-    const res = await Axios.get('http://localhost/evil-models/ws.php?id='+id);
+    const res = await Axios.get(`http://localhost:3000/employees/${id}`)
 
     if (res.status === 200 && res.statusText === 'OK') {
-      employee.value = res.data.payload
+      employee.value = res.data
     } else alert("Error")
   }
 
