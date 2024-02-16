@@ -25,18 +25,15 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
-  const destroy = async (ev: Event) => {
+  const destroy = async (id: number): Promise<Boolean> => {
     try {
-      const target = ev.currentTarget as HTMLElement
-      const { id } = target.dataset
-
       const res = await Axios.delete(EMPLOYEES_API + id, {
         headers: { Authorization }
       })
 
       if (res.status === 204 && res.statusText === "No Content") {
         sweetSuccess("Registro eliminado.")
-        // redirect
+        return true
       }
     } catch (error: any) {
       if (Axios.isAxiosError(error))
@@ -44,6 +41,8 @@ export const useEmployeesStore = defineStore('employees', () => {
       else
         sweetError(error.message)
     }
+
+    return false
   }
 
   return { employees, message, getEmployees, destroy }

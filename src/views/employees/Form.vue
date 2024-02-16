@@ -1,10 +1,11 @@
 <script setup lang="ts">
 
 import { onMounted } from 'vue'
-import { RouterLink, useRoute } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useEmployeeStore } from '@/stores/employee.store'
 
 const route = useRoute()
+const router = useRouter()
 const es = useEmployeeStore()
 
 onMounted(() => {
@@ -18,12 +19,20 @@ onMounted(() => {
     es.setMethod("POST");
   }
 })
+
+const save = async () => {
+  // router.back() // router.go(-1)
+
+  const status: Boolean = await es.submit()
+  if (status)
+    router.push({ name: "employees list" })
+}
 </script>
 
 <template>
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <form class="card" @submit.prevent="es.submit">
+      <form class="card" @submit.prevent="save">
 
         <div class="card-header">
           <h3>Employees Form</h3>

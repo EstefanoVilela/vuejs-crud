@@ -26,7 +26,7 @@ export const useEmployeeStore = defineStore('employee', () => {
     }
   }
 
-  const submit = async () => {
+  const submit = async (): Promise<Boolean> => {
     try {
       if (method.value === 'POST') {
         const res = await Axios.post(EMPLOYEES_API, employee.value, {
@@ -35,7 +35,7 @@ export const useEmployeeStore = defineStore('employee', () => {
 
         if (res.status === 201 && res.statusText === "Created") {
           sweetSuccess("Registro creado.")
-          // redirect
+          return true
         }
       } else {
         const id = employee.value.id
@@ -45,7 +45,7 @@ export const useEmployeeStore = defineStore('employee', () => {
 
         if (res.status === 200 && res.statusText === 'OK') {
           sweetSuccess("Registro actualizado.")
-          // redirect
+          return true
         }
       }
     } catch (error: any) {
@@ -54,6 +54,8 @@ export const useEmployeeStore = defineStore('employee', () => {
       else
         sweetError(error.message)
     }
+
+    return false
   }
 
   const getEmployee = async (id: number) => {

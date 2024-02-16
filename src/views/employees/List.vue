@@ -3,10 +3,19 @@
 import { onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useEmployeesStore } from '@/stores/employees.store'
+
 const es = useEmployeesStore()
 
 onMounted(() => es.getEmployees())
 
+const destroy = async (ev: Event) => {
+  const target = ev.currentTarget as HTMLElement
+  const id = parseInt(target.dataset.id as string)
+
+  const status: Boolean = await es.destroy(id)
+  if (status)
+    es.getEmployees()
+}
 </script>
 
 <template>
@@ -35,7 +44,7 @@ onMounted(() => es.getEmployees())
           <td>
             <RouterLink :to="`/employees/edit?id=${ employee.id }`" class="btn btn-warning me-2">Editar</RouterLink>
 
-            <button class="btn btn-danger" @click="es.destroy" :data-id="employee.id">Eliminar</button>
+            <button class="btn btn-danger" @click="destroy" :data-id="employee.id">Eliminar</button>
           </td>
         </tr>
         <tr v-else>
