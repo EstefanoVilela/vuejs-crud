@@ -1,6 +1,4 @@
 # TODO
 
-1. Redirecciones
-2. Implementar SweetAlert
-3. Implementar patrón services
-4. Implementar patrón composables
+1. Implementar patrón services
+2. Implementar patrón composables
