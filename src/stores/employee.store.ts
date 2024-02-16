@@ -1,7 +1,10 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import Axios from 'axios'
+
 import type Employee from '@/interfaces/employee.interface'
+import { Authorization, EMPLOYEES_API } from '@/constants/employees.constant'
+import { sweetSuccess, sweetError } from '@/utils/alert.utils'
 
 export const useEmployeeStore = defineStore('employee', () => {
   const employee = ref<Employee>({
@@ -26,31 +29,46 @@ export const useEmployeeStore = defineStore('employee', () => {
   const submit = async () => {
     try {
       if (method.value === 'POST') {
-        const res = await Axios.post("http://localhost:3000/employees", employee.value)
+        const res = await Axios.post(EMPLOYEES_API, employee.value, {
+          headers: { Authorization }
+        })
 
         if (res.status === 201 && res.statusText === "Created") {
-          alert("Guardado!")
+          sweetSuccess("Registro creado.")
           // redirect
-        } else alert("Error")
+        }
       } else {
-        const res = await Axios.put(`http://localhost:3000/employees/${ employee.value.id }`, employee.value)
+        const id = employee.value.id
+        const res = await Axios.put(EMPLOYEES_API+id, employee.value, {
+          headers: { Authorization }
+        })
 
         if (res.status === 200 && res.statusText === 'OK') {
-          alert("Guardado!")
+          sweetSuccess("Registro actualizado.")
           // redirect
-        } else alert("Error")
+        }
       }
-    } catch (error) {
-      alert(error)
+    } catch (error: any) {
+      if (Axios.isAxiosError(error))
+        sweetError(error.response?.data.message)
+      else
+        sweetError(error.message)
     }
   }
 
   const getEmployee = async (id: number) => {
-    const res = await Axios.get(`http://localhost:3000/employees/${id}`)
-
-    if (res.status === 200 && res.statusText === 'OK') {
+    try {
+      const res = await Axios.get(EMPLOYEES_API+id, {
+        headers: { Authorization }
+      })
+  
       employee.value = res.data
-    } else alert("Error")
+    } catch (error: any) {
+      if (Axios.isAxiosError(error))
+        sweetError(error.response?.data.message)
+      else
+        sweetError(error.message)
+    }
   }
 
   return { employee, setMethod, clean, submit, getEmployee }
